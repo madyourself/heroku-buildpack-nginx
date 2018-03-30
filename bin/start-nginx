@@ -28,7 +28,8 @@ echo 'buildpack=nginx at=logs-initialized'
 	echo 'logs' >$psmgr
 ) &
 
-if [ "$#" -gt "0" ] then
+if [ "$#" -gt "0" ]
+then
 	#Start App Server if necessary arguments are provided
 	(
 		#Take the command passed to this bin and start it.
