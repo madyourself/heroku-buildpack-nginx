@@ -43,7 +43,7 @@ at=info method=GET path=/ host=salty-earth-7125.herokuapp.com request_id=e2c79e8
 
 ### Language/App Server Agnostic
 
-Nginx-buildpack provides a command named `bin/start-nginx` this command takes another command as an argument. You must pass your app server's startup command to `start-nginx`.
+Nginx-buildpack provides a command named `bin/start-nginx` this command takes another command as an argument. You may pass your app server's startup command to `start-nginx`.
 
 For example, to get NGINX and Unicorn up and running:
 
@@ -51,6 +51,8 @@ For example, to get NGINX and Unicorn up and running:
 $ cat Procfile
 web: bin/start-nginx bundle exec unicorn -c config/unicorn.rb
 ```
+
+This command is optional meaning you can serve static files with a custom configuration file.
 
 ### Setting the Worker Processes
 
@@ -98,18 +100,24 @@ Here are 2 setup examples. One example for a new app, another for an existing ap
 ### Existing App
 
 Update Buildpacks
+
 ```bash
 $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nginx
 ```
+
 Update Procfile:
+
 ```
 web: bin/start-nginx bundle exec unicorn -c config/unicorn.rb
 ```
+
 ```bash
 $ git add Procfile
 $ git commit -m 'Update procfile for NGINX buildpack'
 ```
+
 Update Unicorn Config
+
 ```ruby
 require 'fileutils'
 listen '/tmp/nginx.socket'
@@ -117,11 +125,14 @@ before_fork do |server,worker|
 	FileUtils.touch('/tmp/app-initialized')
 end
 ```
+
 ```bash
 $ git add config/unicorn.rb
 $ git commit -m 'Update unicorn config to listen on NGINX socket.'
 ```
+
 Deploy Changes
+
 ```bash
 $ git push heroku master
 ```
@@ -134,17 +145,20 @@ $ git init
 ```
 
 **Gemfile**
+
 ```ruby
 source 'https://rubygems.org'
 gem 'unicorn'
 ```
 
 **config.ru**
+
 ```ruby
 run Proc.new {[200,{'Content-Type' => 'text/plain'}, ["hello world"]]}
 ```
 
 **config/unicorn.rb**
+
 ```ruby
 require 'fileutils'
 preload_app true
@@ -156,15 +170,21 @@ before_fork do |server,worker|
 	FileUtils.touch('/tmp/app-initialized')
 end
 ```
+
 Install Gems
+
 ```bash
 $ bundle install
 ```
+
 Create Procfile
+
 ```
 web: bin/start-nginx bundle exec unicorn -c config/unicorn.rb
 ```
+
 Create & Push Heroku App:
+
 ```bash
 $ heroku create
 $ heroku buildpacks:add heroku/ruby
@@ -174,12 +194,15 @@ $ git commit -am "init"
 $ git push heroku master
 $ heroku logs -t
 ```
+
 Visit App
+
 ```
 $ heroku open
 ```
 
 ## License
+
 Copyright (c) 2013 Ryan R. Smith
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
