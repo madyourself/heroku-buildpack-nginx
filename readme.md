@@ -8,7 +8,7 @@ Some application servers (e.g. Ruby's Unicorn) halt progress when dealing with n
 
 ## Versions
 
-* Buildpack Version: 1.0
+* Buildpack Version: 1.1
 * NGINX Version: 1.9.5
 
 ## Requirements
@@ -67,7 +67,7 @@ $ heroku config:set NGINX_WORKERS=8
 
 ### Customizable NGINX Config
 
-You can provide your own NGINX config by creating a file named `nginx.conf.erb` in the config directory of your app. Start by copying the buildpack's [default config file](https://github.com/ryandotsmith/nginx-buildpack/blob/master/config/nginx.conf.erb).
+You can provide your own NGINX config by creating a file named `nginx.conf.erb` in the config directory of your app. Start by copying the buildpack's [default config file](config/nginx.conf.erb).
 
 ### Customizable NGINX Compile Options
 
@@ -76,8 +76,6 @@ See [scripts/build_nginx](scripts/build_nginx) for the build steps. Configuring 
 You can run the builds in a [Docker](https://www.docker.com/) container:
 
 ```
-$ docker-machine create --driver virtualbox cedar
-$ eval "$(docker-machine env ceder)"
 $ make build # It outputs the latest builds to bin/cedar-*
 ```
 
